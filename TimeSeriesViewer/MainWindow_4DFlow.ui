@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow_4DFlow</class>
+ <widget class="QMainWindow" name="MainWindow_4DFlow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>732</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>List of MrStruct Loaded</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnClearTable">
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="tableWidgetMagVel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>320</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnPC_MRA">
+        <property name="text">
+         <string>Generate 3D PC-MRA</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnPC_MRA_Time">
+        <property name="text">
+         <string>Generate Time-Series PC-MRA</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnVelocityNorm">
+        <property name="text">
+         <string>Generate 4D Velocity Norm from Vector</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnVelocitySum">
+        <property name="text">
+         <string>Generate Velocity Sum thorugh the cycle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnPeakVelocity">
+        <property name="text">
+         <string>Generate Peak Velocity through the cycle</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnShowData">
+        <property name="text">
+         <string>Show Data</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="tableWidgetMask"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnMaskAddActor">
+        <property name="text">
+         <string>Add Actor</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnMaskCutData">
+        <property name="text">
+         <string>Cut Data</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QMdiArea" name="mdiArea"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionLoad_Dicoms"/>
+    <addaction name="actionLoad_MrStruct"/>
+    <addaction name="actionLoad_Segmentation"/>
+    <addaction name="actionLoad_Directory"/>
+    <addaction name="actionSave_Segmentation"/>
+    <addaction name="actionSave_Segmentation_with_info"/>
+    <addaction name="actionSave_3D_Movie"/>
+    <addaction name="actionBatch_work_1"/>
+    <addaction name="actionBatch_work_2"/>
+   </widget>
+   <widget class="QMenu" name="menuSegmentation">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Segmentation</string>
+    </property>
+    <widget class="QMenu" name="menuCreate">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Create</string>
+     </property>
+     <addaction name="actionFull_Cycle"/>
+     <addaction name="actionSystole"/>
+     <addaction name="actionDiastole"/>
+     <addaction name="actionTime_Range"/>
+     <addaction name="actionTime_Point"/>
+     <addaction name="actionUse_PC_MRA"/>
+     <addaction name="actionDynamic_Mask"/>
+     <addaction name="actionSeed_Points"/>
+     <addaction name="actionFast_Marching"/>
+    </widget>
+    <widget class="QMenu" name="menuEdit_Segmentation">
+     <property name="title">
+      <string>Edit Segmentation</string>
+     </property>
+     <widget class="QMenu" name="menuAdd">
+      <property name="title">
+       <string>Add</string>
+      </property>
+      <addaction name="actionContraction"/>
+      <addaction name="actionExpansion"/>
+      <addaction name="actionFree_Hand"/>
+     </widget>
+     <addaction name="actionErase_in_slice"/>
+     <addaction name="actionErase_with_MIPs"/>
+     <addaction name="menuAdd"/>
+     <addaction name="actionErode_Volume"/>
+     <addaction name="actionSmooth_Volume"/>
+     <addaction name="actionLevel_Set"/>
+    </widget>
+    <addaction name="menuCreate"/>
+    <addaction name="actionView_Segmentation"/>
+    <addaction name="menuEdit_Segmentation"/>
+    <addaction name="actionMask_Velocity"/>
+    <addaction name="actionCenterline"/>
+   </widget>
+   <widget class="QMenu" name="menuVisualization">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Visualization</string>
+    </property>
+    <widget class="QMenu" name="menuVelocity_Vectors">
+     <property name="title">
+      <string>Velocity Vectors</string>
+     </property>
+     <addaction name="actionVectors_3D"/>
+     <addaction name="actionVectors_2D"/>
+    </widget>
+    <widget class="QMenu" name="menuStreamlines">
+     <property name="title">
+      <string>Streamlines</string>
+     </property>
+     <addaction name="actionStreamlines_3D"/>
+     <addaction name="actionStreamlines_2D"/>
+    </widget>
+    <addaction name="actionVelocity_Cloud"/>
+    <addaction name="menuVelocity_Vectors"/>
+    <addaction name="menuStreamlines"/>
+    <addaction name="actionVelocity_MIPS"/>
+    <addaction name="action3D_Viewer_Movie"/>
+   </widget>
+   <widget class="QMenu" name="menuQuantification">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Quantification</string>
+    </property>
+    <widget class="QMenu" name="menuCreate_Plane">
+     <property name="title">
+      <string>Create Plane</string>
+     </property>
+     <addaction name="actionSingle_Plane"/>
+     <addaction name="actionPlanes_at_Landmarks"/>
+    </widget>
+    <widget class="QMenu" name="menuStasis_Maps">
+     <property name="title">
+      <string>Stasis Maps</string>
+     </property>
+     <addaction name="actionStasis_Map_MIP"/>
+     <addaction name="action3D_Stasis_Map"/>
+    </widget>
+    <addaction name="actionDiameters_Centerline"/>
+    <addaction name="actionDiameter_Projection"/>
+    <addaction name="menuCreate_Plane"/>
+    <addaction name="actionFlow_Plane_s"/>
+    <addaction name="actionNormalized_Histogram"/>
+    <addaction name="action3D_WSS"/>
+    <addaction name="actionKinetic_Energy"/>
+    <addaction name="actionViscous_Energy_Loss"/>
+    <addaction name="actionVorticity"/>
+    <addaction name="menuStasis_Maps"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+    <addaction name="actionCascade"/>
+    <addaction name="actionTiled"/>
+    <addaction name="actionClose_All"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuSegmentation"/>
+   <addaction name="menuVisualization"/>
+   <addaction name="menuQuantification"/>
+   <addaction name="menuWindow"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionLoad_Directory"/>
+   <addaction name="actionLoad_MrStruct"/>
+   <addaction name="actionLoad_Segmentation"/>
+   <addaction name="actionBatch_work_1"/>
+   <addaction name="actionBatch_work_2"/>
+  </widget>
+  <action name="actionLoad_Dicoms">
+   <property name="text">
+    <string>Load Dicoms</string>
+   </property>
+  </action>
+  <action name="actionLoad_MrStruct">
+   <property name="text">
+    <string>Load MrStructs</string>
+   </property>
+  </action>
+  <action name="actionLoad_Segmentation">
+   <property name="text">
+    <string>Load Segmentation</string>
+   </property>
+  </action>
+  <action name="actionSave_Segmentation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save Segmentation</string>
+   </property>
+  </action>
+  <action name="actionSave_Segmentation_with_info">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save Segmentation with info</string>
+   </property>
+  </action>
+  <action name="actionSave_3D_Movie">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save 3D Movie</string>
+   </property>
+  </action>
+  <action name="actionView_Segmentation">
+   <property name="text">
+    <string>View Segmentation</string>
+   </property>
+  </action>
+  <action name="actionMask_Velocity">
+   <property name="text">
+    <string>Mask Velocity</string>
+   </property>
+  </action>
+  <action name="actionCenterline">
+   <property name="text">
+    <string>Centerline</string>
+   </property>
+  </action>
+  <action name="actionVelocity_Cloud">
+   <property name="text">
+    <string>Velocity Cloud</string>
+   </property>
+  </action>
+  <action name="actionVelocity_MIPS">
+   <property name="text">
+    <string>Velocity MIPS</string>
+   </property>
+  </action>
+  <action name="action3D_Viewer_Movie">
+   <property name="text">
+    <string>3D Viewer Movie</string>
+   </property>
+  </action>
+  <action name="actionDiameters_Centerline">
+   <property name="text">
+    <string>Diameters Centerline</string>
+   </property>
+  </action>
+  <action name="actionDiameter_Projection">
+   <property name="text">
+    <string>Diameter Projection</string>
+   </property>
+  </action>
+  <action name="actionFlow_Plane_s">
+   <property name="text">
+    <string>Flow Plane(s)</string>
+   </property>
+  </action>
+  <action name="actionNormalized_Histogram">
+   <property name="text">
+    <string>Normalized Histogram</string>
+   </property>
+  </action>
+  <action name="action3D_WSS">
+   <property name="text">
+    <string>3D WSS</string>
+   </property>
+  </action>
+  <action name="actionKinetic_Energy">
+   <property name="text">
+    <string>Kinetic Energy</string>
+   </property>
+  </action>
+  <action name="actionViscous_Energy_Loss">
+   <property name="text">
+    <string>Viscous Energy Loss</string>
+   </property>
+  </action>
+  <action name="actionVorticity">
+   <property name="text">
+    <string>Vorticity</string>
+   </property>
+  </action>
+  <action name="actionFull_Cycle">
+   <property name="text">
+    <string>Full Cycle</string>
+   </property>
+  </action>
+  <action name="actionSystole">
+   <property name="text">
+    <string>Systole</string>
+   </property>
+  </action>
+  <action name="actionDiastole">
+   <property name="text">
+    <string>Diastole</string>
+   </property>
+  </action>
+  <action name="actionTime_Range">
+   <property name="text">
+    <string>Time Range</string>
+   </property>
+  </action>
+  <action name="actionTime_Point">
+   <property name="text">
+    <string>Time Point</string>
+   </property>
+  </action>
+  <action name="actionUse_PC_MRA">
+   <property name="text">
+    <string>Use PC-MRA</string>
+   </property>
+  </action>
+  <action name="actionDynamic_Mask">
+   <property name="text">
+    <string>Dynamic Mask</string>
+   </property>
+  </action>
+  <action name="actionSeed_Points">
+   <property name="text">
+    <string>Seed Points</string>
+   </property>
+  </action>
+  <action name="actionFast_Marching">
+   <property name="text">
+    <string>Fast Marching</string>
+   </property>
+  </action>
+  <action name="actionErase_in_slice">
+   <property name="text">
+    <string>Erase in slice</string>
+   </property>
+  </action>
+  <action name="actionErase_with_MIPs">
+   <property name="text">
+    <string>Erase with MIPs</string>
+   </property>
+  </action>
+  <action name="actionErode_Volume">
+   <property name="text">
+    <string>Erode Volume</string>
+   </property>
+  </action>
+  <action name="actionSmooth_Volume">
+   <property name="text">
+    <string>Smooth Volume</string>
+   </property>
+  </action>
+  <action name="actionLevel_Set">
+   <property name="text">
+    <string>Level Set</string>
+   </property>
+  </action>
+  <action name="actionContraction">
+   <property name="text">
+    <string>Contraction</string>
+   </property>
+  </action>
+  <action name="actionExpansion">
+   <property name="text">
+    <string>Expansion</string>
+   </property>
+  </action>
+  <action name="actionFree_Hand">
+   <property name="text">
+    <string>Free Hand</string>
+   </property>
+  </action>
+  <action name="actionVectors_3D">
+   <property name="text">
+    <string>Vectors 3D</string>
+   </property>
+  </action>
+  <action name="actionVectors_2D">
+   <property name="text">
+    <string>Vectors 2D</string>
+   </property>
+  </action>
+  <action name="actionStreamlines_3D">
+   <property name="text">
+    <string>Streamlines 3D</string>
+   </property>
+  </action>
+  <action name="actionStreamlines_2D">
+   <property name="text">
+    <string>Streamlines 2D</string>
+   </property>
+  </action>
+  <action name="actionSingle_Plane">
+   <property name="text">
+    <string>Single Plane</string>
+   </property>
+  </action>
+  <action name="actionPlanes_at_Landmarks">
+   <property name="text">
+    <string>Planes at Landmarks</string>
+   </property>
+  </action>
+  <action name="actionStasis_Map_MIP">
+   <property name="text">
+    <string>Stasis Map MIP</string>
+   </property>
+  </action>
+  <action name="action3D_Stasis_Map">
+   <property name="text">
+    <string>3D Stasis Map</string>
+   </property>
+  </action>
+  <action name="actionCascade">
+   <property name="text">
+    <string>Cascade</string>
+   </property>
+  </action>
+  <action name="actionTiled">
+   <property name="text">
+    <string>Tiled</string>
+   </property>
+  </action>
+  <action name="actionBatch_work_1">
+   <property name="text">
+    <string>Batch work 1</string>
+   </property>
+  </action>
+  <action name="actionBatch_work_2">
+   <property name="text">
+    <string>Batch work 2</string>
+   </property>
+  </action>
+  <action name="actionLoad_Directory">
+   <property name="text">
+    <string>Load Directory</string>
+   </property>
+  </action>
+  <action name="actionClose_All">
+   <property name="text">
+    <string>Close All</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
